@@ -15,8 +15,8 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "storage_bucket" {
-  name     = var.gcs_bucket_name
-  location = var.gcp_region
+  name          = var.gcs_bucket_name
+  location      = var.gcp_region
   force_destroy = true
 
   labels = {
