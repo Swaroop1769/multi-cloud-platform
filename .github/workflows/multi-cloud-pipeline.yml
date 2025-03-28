@@ -49,3 +49,4 @@ jobs:
               -var="gcp_project=dummy-project-123" \
               -var="gcs_bucket_name=dummy-gcs-bucket-456"
           fi
+# triggering workflow manually
