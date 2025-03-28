@@ -9,10 +9,10 @@ terraform {
   required_version = ">= 1.3.0"
 }
 
-provider "google" {
-  project = var.gcp_project
-  region  = var.gcp_region
-}
+# provider "google" {
+#   project = var.gcp_project
+#   region  = var.gcp_region
+# }
 
 resource "google_storage_bucket" "storage_bucket" {
   name          = var.gcs_bucket_name
