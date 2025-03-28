@@ -15,7 +15,7 @@ provider "aws" {
 
 resource "aws_s3_bucket" "storage_bucket" {
   bucket        = var.s3_bucket_name
-  force_destroy = true  # this helps when we destroy infra
+  force_destroy = true # this helps when we destroy infra
 
   tags = {
     Name        = "MultiCloud Storage"
