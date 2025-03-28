@@ -1,0 +1,31 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "S3ReadWriteAccess",
+        "Effect": "Allow",
+        "Action": [
+          "s3:ListBucket",
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject"
+        ],
+        "Resource": [
+          "arn:aws:s3:::your-bucket-name",
+          "arn:aws:s3:::your-bucket-name/*"
+        ]
+      },
+      {
+        "Sid": "TerraformBasicPermissions",
+        "Effect": "Allow",
+        "Action": [
+          "ec2:Describe*",
+          "iam:Get*",
+          "iam:List*",
+          "ssm:GetParameters",
+          "ssm:GetParameter"
+        ],
+        "Resource": "*"
+      }
+    ]
+  }
