@@ -2,11 +2,12 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'aws_ec2_metrics'
-    ec2_sd_configs:
+  - job_name: 'aws_ec2_metrics' #with node exporter we can take care of this but for S3 we can't directly scrape data
+    ec2_sd_configs: #for service discovery
       - region: us-east-1
         access_key: YOUR_AWS_ACCESS_KEY
         secret_key: YOUR_AWS_SECRET_KEY
+        # in prod we can't make use of Access keys instead use env variables or IAM roles
     relabel_configs:
       - source_labels: [__meta_ec2_private_ip]
         target_label: address

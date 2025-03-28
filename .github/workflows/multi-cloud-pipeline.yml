@@ -1,6 +1,6 @@
 name: Multi-Cloud Terraform Validation
 
-on:
+on: 
   push:
     paths:
       - 'infrastructure/**'
@@ -13,7 +13,7 @@ jobs:
     name: Terraform Format & Validate (${{ matrix.provider }})
     runs-on: ubuntu-latest
 
-    strategy:
+    strategy:  #DRY Code
       matrix:
         provider: [aws, gcp]
 
