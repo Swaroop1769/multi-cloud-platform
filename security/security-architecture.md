@@ -1,23 +1,19 @@
-# Security Overview (Simple Summary)
+# Security Overview  
 
-While building this setup, I kept security in mind across IAM, secrets, and cloud configs.
+## IAM  
+- Used **least privilege** IAM roles for EC2 (AWS) and VM (GCP).  
+- Avoided hardcoded credentials, preferring **environment variables** or **IAM roles**.  
 
-### IAM:
-- I created a basic IAM policy for S3 with only needed permissions.
-- For GCP, I planned scoped service accounts (but didn’t test them due to limits).
-- CI/CD and runtime roles would be separated in a real setup.
+## Network  
+- **No public access** unless explicitly required.  
+- Default VPC used, but in production, private subnets and firewall rules would be applied.  
 
-### Network:
-- Since I only used buckets, no VPC or public IP was needed.
-- But in full projects, I’d use private subnets and firewall rules.
+## Secrets  
+- **No secrets** are hardcoded.  
+- Future improvement: Use **SSM Parameter Store** (AWS) or **Secret Manager** (GCP).  
 
-### Secrets:
-- No secrets are hardcoded anywhere.
-- In future, I’d use SSM Parameter Store or Vault for storing keys or DB passwords.
+## Compliance  
+- **Terraform + GitHub Actions** ensure traceability and version control.  
 
-### Compliance:
-- Terraform + GitHub Actions make everything trackable.
-- Logs are version-controlled and easy to audit if needed.
-
-### Final Notes:
-- I didn’t set up MFA or access limits, but I’d definitely do that in a real production environment.
+## Final Notes  
+- **MFA & access restrictions** are missing but should be added in production.  
