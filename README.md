@@ -1,46 +1,63 @@
 # Multi-Cloud Infrastructure Platform
 
-This project sets up a basic multi-cloud setup using Terraform for AWS and GCP. CI/CD is handled using GitHub Actions, and monitoring is done using Prometheus and Grafana.
+## Overview
+This project sets up a basic multi-cloud infrastructure using Terraform for AWS and GCP. CI/CD is handled via GitHub Actions, and monitoring is managed using Prometheus and Grafana.
 
 ---
 
 ## Sections
 
 ### 1. Infrastructure-as-Code (IaC)
-- Tools: Terraform
-- Providers: AWS + GCP
-- AWS → S3 Bucket
-- GCP → GCS Bucket
-- Files: main.tf, variables.tf, outputs.tf
+- **Tools:** Terraform
+- **Providers:** AWS + GCP
+- **AWS:** EC2 Instance
+- **GCP:** Compute Engine Instance
+- **Files:** `main.tf`, `variables.tf`, `outputs.tf`
 
 ### 2. CI/CD Pipeline
-- GitHub Actions with matrix strategy
-- Stages:
-  - Format check
-  - tfsec scan
-  - Terraform init & validate
-- File: .github/workflows/multi-cloud-pipeline.yml
+- **Tool:** GitHub Actions with a matrix strategy
+- **Stages:**
+  1. Terraform Format Check
+  2. Security Scan with tfsec
+  3. Terraform Init & Validate
+- **File:** `.github/workflows/multi-cloud-pipeline.yml`
 
 ### 3. Monitoring
-- Prometheus to collect metrics
-- Grafana dashboard for CPU and memory
-- Folder: /monitoring
+- **Prometheus**: Collects system metrics
+- **Grafana**: Visualizes CPU and memory usage
+- **Files:** `/monitoring/prometheus.yml`, `/monitoring/grafana-dashboard.json`
 
 ### 4. Security
-- IAM policy (`iam-policy.json`)
-- Architecture notes in security-architecture.md
-- Secrets via AWS SSM (no hardcoding)
+- **IAM Policy:** Defined for AWS (`iam-policy.json`)
+- **GCP Service Accounts:** Scoped roles planned
+- **Secrets Management:** AWS SSM (no hardcoded secrets)
+- **Security Notes:** `security-architecture.md`
 
 ### 5. Prompt Engineering
-- AI used for Terraform modules, tfsec, and workflow YAML
-- Prompts improved and verified
-- File: prompt-engineering.md
+- **AI used for:** Terraform modules, tfsec integration, and GitHub Actions YAML
+- **Files:** `prompt-engineering.md`
 
 ---
 
-## How to Deploy (AWS)
+## How to Deploy
 
-```bash
+### AWS Deployment
+```sh
 cd infrastructure/aws
 terraform init
-terraform apply -var="s3_bucket_name=your-bucket-name"
+terraform apply -var="instance_name=my-ec2-instance"
+```
+
+### GCP Deployment
+```sh
+cd infrastructure/gcp
+terraform init
+terraform apply -var="instance_name=my-gce-instance"
+```
+
+---
+
+## Future Improvements
+- **Enhance security:** Implement IAM role-based access
+- **Scalability:** Add load balancers and autoscaling
+- **Logging & Observability:** CloudWatch (AWS) & Cloud Logging (GCP)
