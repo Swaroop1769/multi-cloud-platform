@@ -1,25 +1,34 @@
 # Monitoring and Observability
 
-This project includes a multi-tool observability stack designed for hybrid cloud infrastructure.
+This part is for basic monitoring using Prometheus and Grafana.
+
+---
 
 ## Tools Used
 
-- Prometheus: Collects metrics from AWS EC2 and local nodes using Node Exporter.
-- Grafana: Visualizes system metrics through a custom dashboard.
-- CloudWatch: (Optional) AWS-native monitoring for logs and alarms.
+- Prometheus – collects metrics (used local setup for now)
+- Grafana – used to show CPU and memory usage
+- CloudWatch – optional, didn’t use in this but it’s AWS native
 
-## Prometheus Setup
+---
 
-- Auto-discovers AWS EC2 instances via ec2_sd_configs.
-- Scrapes local machine metrics for demo/testing.
-- Config file: prometheus.yml
+## Prometheus
 
-## Grafana Dashboard
+- Scrapes local system metrics (good for testing)
+- Config is in prometheus.yml
+- It can be set to auto-discover EC2 using ec2_sd_configs (didn’t test that here)
 
-- Shows real-time CPU and memory usage.
+---
+
+## Grafana
+
 - Dashboard file: grafana-dashboard.json
-- Import into Grafana under "Manage → Import".
+- Shows CPU and memory usage live
+- You can import it by going to Grafana → Manage → Import
+
+---
 
 ## Note
 
-This setup is designed to demonstrate observability architecture. Actual integration may require cloud credentials and agent deployment.
+This is just a simple setup to show how monitoring can be added.  
+For a real setup, you'd need Node Exporter running on EC2 or GCP, and proper creds if you want Prometheus to scrape cloud VMs directly.

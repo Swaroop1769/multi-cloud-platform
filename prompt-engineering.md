@@ -1,62 +1,59 @@
-# Prompt Engineering Log
+# Prompt Engineering Notes
 
-This file documents how AI assistance was used during infrastructure design and automation.
-
----
-
-## Example 1: Terraform Module Generation for AWS S3
-
-### Prompt Used:
-> “Generate a Terraform config to provision an S3 bucket in AWS with tags and force_destroy enabled.”
-
-### AI Output:
-- Generated main.tf using aws_s3_bucket
-- Included tags, force_destroy, and region
-
-### Evaluation:
-- Output was mostly correct
-- Needed changes:
-  - Renamed bucket and tags to avoid real company names
-  - Added outputs for bucket_name and arn
+This file explains how I used AI (ChatGPT) to assist me during the challenge. I used AI mainly for suggestions, debugging, and understanding best practices.
 
 ---
 
-## Example 2: GitHub Actions Workflow
+## How I Used AI
 
-### Prompt Used:
-> “Give me a GitHub Actions workflow that runs Terraform validation and plan on both AWS and GCP folders.”
+### 1. Breaking Down the Work
 
-### AI Output:
-- Matrix strategy with aws and gcp
-- Steps for init, validate, fmt, plan
+At the start, I wasn’t sure how to structure a multi-cloud Terraform setup with AWS and GCP. I asked AI how to separate provider folders, write reusable modules, and define variables and outputs.
 
-### Evaluation:
-- Worked perfectly
-- Used it directly in .github/workflows/multi-cloud-pipeline.yml
+It helped me quickly set up main.tf, variables.tf, and outputs.tf for both cloud providers in an organized way.
 
 ---
 
-## Example 3: Prometheus Configuration
+### 2. Fixing CI/CD Pipeline Issues
 
-### Prompt Used:
-> “Give me a Prometheus config to scrape EC2 instances in AWS using ec2_sd_configs.”
+While setting up the GitHub Actions workflow, I ran into problems like:
 
-### AI Output:
-- Generated prometheus.yml with correct ec2_sd_configs
-- Included basic static_configs fallback
+- terraform not found error in job
+- tfsec failing the entire pipeline even on low-level issues
+- terraform fmt job not running at all
 
-### Evaluation:
-- Manually updated to mask credentials
-- Added localhost:9100 for testing
+I asked GPT why these things were happening and how to fix them. That’s where I learned about adding continue-on-error: true for specific steps to stop them from breaking the whole workflow.
+
+I also validated matrix strategy and working directory configs using AI as a quick checker.
 
 ---
 
-## Summary
+### 3. Understanding Security Feedback
 
-Throughout this project, AI was used to:
-- Rapidly scaffold Terraform modules
-- Design CI/CD pipelines
-- Draft monitoring configurations
-- Save time while ensuring correctness
+When tfsec flagged issues like "storage bucket encryption doesn't use customer-managed key", I asked what it meant and whether it was mandatory to fix. I understood it was a low severity issue, and instead of blindly changing the setup, I made a note to address it in documentation and future improvements.
 
-All outputs were critically reviewed and adapted before use.
+---
+
+### 4. Monitoring Stack Support
+
+For Prometheus and Grafana, I used AI to:
+
+- Write a basic prometheus.yml config
+- Understand how Prometheus scrapes metrics using exporters
+- Generate a simple Grafana dashboard JSON for CPU and memory usage
+
+I didn’t know much about Grafana before, but these prompts helped me understand how dashboards work and how to version them using JSON.
+
+---
+
+## Sample Prompts I Used
+
+- “GitHub Actions tfsec scan failing the job — how to make it non-blocking?”
+- “How to use continue-on-error in GitHub Actions step correctly?”
+- “Terraform format check step not running in GitHub Actions — what’s the reason?”
+- “Why does GitHub Actions show ‘terraform command not found’?”
+- “Explain tfsec warning: google-storage-bucket-encryption-customer-key”
+- “How to write a Prometheus config to monitor EC2 metrics using Node Exporter?”
+- “Create a Grafana dashboard JSON file for monitoring CPU and memory”
+
+---

@@ -1,52 +1,23 @@
-# Security Architecture Overview
+# Security Overview (Simple Summary)
 
-This document outlines the security considerations and architecture decisions for the hybrid cloud infrastructure setup.
+While building this setup, I kept security in mind across IAM, secrets, and cloud configs.
 
----
+### IAM:
+- I created a basic IAM policy for S3 with only needed permissions.
+- For GCP, I planned scoped service accounts (but didn’t test them due to limits).
+- CI/CD and runtime roles would be separated in a real setup.
 
-## 1. Identity and Access Management (IAM)
+### Network:
+- Since I only used buckets, no VPC or public IP was needed.
+- But in full projects, I’d use private subnets and firewall rules.
 
-### AWS:
-- IAM roles for Terraform with least privilege
-- Separate roles for CI/CD vs. runtime services
-- Example policy: iam-policy.json (see included file)
+### Secrets:
+- No secrets are hardcoded anywhere.
+- In future, I’d use SSM Parameter Store or Vault for storing keys or DB passwords.
 
-### GCP:
-- Service accounts with scoped permissions
-- Role separation between provisioning and monitoring
+### Compliance:
+- Terraform + GitHub Actions make everything trackable.
+- Logs are version-controlled and easy to audit if needed.
 
----
-
-## 2. Network Security
-
-- Resources provisioned inside VPCs with private subnets
-- No public IPs assigned unless explicitly required
-- Use of security groups and firewall rules to restrict access
-
----
-
-## 3. Secrets Management
-
-- AWS SSM Parameter Store for storing:
-  - Database credentials
-  - API keys
-- Future extension: HashiCorp Vault or AWS Secrets Manager
-- Secrets are never hardcoded in Terraform or pipelines
-
----
-
-## 4. Compliance Considerations
-
-- Use of Terraform + GitHub Actions supports Infrastructure as Code (IaC) and auditability
-- Logs from Terraform runs and CI/CD are retained in GitHub
-- Encryption-at-rest and in-transit enabled by default for:
-  - S3 buckets
-  - GCS buckets
-
----
-
-## 5. Recommendations for Hardening
-
-- Enable multi-factor authentication (MFA) for all cloud users
-- Enforce IAM role session limits and access boundaries
-- Monitor credential usage and rotate secrets regularly
+### Final Notes:
+- I didn’t set up MFA or access limits, but I’d definitely do that in a real production environment.

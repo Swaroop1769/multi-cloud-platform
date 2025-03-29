@@ -1,6 +1,6 @@
 # Multi-Cloud Infrastructure Platform
 
-This project demonstrates a scalable and secure multi-cloud infrastructure using Terraform, GitHub Actions, and integrated monitoring — designed for hybrid AWS + GCP environments.
+This project sets up a basic multi-cloud setup using Terraform for AWS and GCP. CI/CD is handled using GitHub Actions, and monitoring is done using Prometheus and Grafana.
 
 ---
 
@@ -9,41 +9,38 @@ This project demonstrates a scalable and secure multi-cloud infrastructure using
 ### 1. Infrastructure-as-Code (IaC)
 - Tools: Terraform
 - Providers: AWS + GCP
-- Reusable modules for extensibility
-- Resources:
-  - AWS: S3 bucket
-  - GCP: GCS bucket
+- AWS → S3 Bucket
+- GCP → GCS Bucket
+- Files: main.tf, variables.tf, outputs.tf
 
 ### 2. CI/CD Pipeline
 - GitHub Actions with matrix strategy
-- Validates Terraform on every push/PR
-- Workflow: .github/workflows/multi-cloud-pipeline.yml
+- Stages:
+  - Format check
+  - tfsec scan
+  - Terraform init & validate
+- File: .github/workflows/multi-cloud-pipeline.yml
 
-### 3. Monitoring and Observability
-- Prometheus for metrics collection
-- Grafana for visualization
-- AWS CloudWatch (optional native integration)
+### 3. Monitoring
+- Prometheus to collect metrics
+- Grafana dashboard for CPU and memory
 - Folder: /monitoring
 
-### 4. Security & Compliance
-- IAM policies with least privilege
-- VPC and firewall rules
-- Secrets stored in SSM Parameter Store
-- Folder: /security
+### 4. Security
+- IAM policy (`iam-policy.json`)
+- Architecture notes in security-architecture.md
+- Secrets via AWS SSM (no hardcoding)
 
-### 5. Prompt Engineering Strategy
-- Prompts crafted for Terraform, pipelines, and observability configs
-- Evaluated and refined outputs for accuracy
-- Full log in: prompt-engineering.md
+### 5. Prompt Engineering
+- AI used for Terraform modules, tfsec, and workflow YAML
+- Prompts improved and verified
+- File: prompt-engineering.md
 
 ---
 
-## Running the Project
+## How to Deploy (AWS)
 
-> NOTE: Some GCP components are simulated due to account limitations.
-
-To deploy the AWS part:
 ```bash
 cd infrastructure/aws
 terraform init
-terraform apply -var="s3_bucket_name=your-unique-bucket"
+terraform apply -var="s3_bucket_name=your-bucket-name"
